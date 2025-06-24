@@ -2,6 +2,7 @@ package com.dhentech.PersonalFinancialControlAPI.domain.model.expense;
 
 import com.dhentech.PersonalFinancialControlAPI.domain.model.category.Category;
 import jakarta.persistence.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,7 +13,7 @@ import java.util.UUID;
 public class Expense {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     private UUID id;
 
     @Column(nullable = false)
