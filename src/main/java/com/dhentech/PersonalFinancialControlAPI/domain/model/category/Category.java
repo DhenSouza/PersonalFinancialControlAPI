@@ -21,8 +21,11 @@ public class Category {
 
     public Category() {}
 
-    public Category(UUID id, String name) {
-        this.id = id;
+    public Category(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Category name cannot be blank.");
+        }
+
         this.name = name;
     }
 
@@ -30,15 +33,23 @@ public class Category {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    private void setId(UUID id) {
+        this.id = id;
+    }
+
+    private void setName(String name) {
         this.name = name;
     }
+
+    public void updateName(String newName) {
+        if (newName == null || newName.isBlank()) {
+            throw new IllegalArgumentException("Category name cannot be blank.");
+        }
+        this.setName(newName);
+    }
+
 }
