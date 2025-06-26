@@ -3,6 +3,8 @@ package com.dhentech.PersonalFinancialControlAPI.domain.service.category;
 import com.dhentech.PersonalFinancialControlAPI.application.web.controller.category.dto.CategoryResponse;
 import com.dhentech.PersonalFinancialControlAPI.application.web.controller.category.dto.NewCategoryRequest;
 import com.dhentech.PersonalFinancialControlAPI.application.web.mapper.CategoryMapper;
+import com.dhentech.PersonalFinancialControlAPI.domain.exceptions.BusinessRuleException;
+import com.dhentech.PersonalFinancialControlAPI.domain.exceptions.ResourceNotFoundException;
 import com.dhentech.PersonalFinancialControlAPI.domain.model.category.Category;
 import com.dhentech.PersonalFinancialControlAPI.infrastructure.repository.jpa.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryResponse createNewCategory(NewCategoryRequest request) {
 
+        if (categoryRepository.existsByName(request.name())) {
+            throw new BusinessRuleException("A category with the name '" + request.name() + "' already exists.");
+        }
+
         Category newCategory = new Category(request.name());
 
         Category savedCategory = this.categoryRepository.save(newCategory);
@@ -45,7 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryResponse updateCategory(UUID id, NewCategoryRequest request) {
         Category categoryToUpdate = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
 
         categoryToUpdate.updateName(request.name());
 

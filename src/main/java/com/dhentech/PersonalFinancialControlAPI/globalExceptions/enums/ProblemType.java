@@ -12,6 +12,12 @@ public enum ProblemType {
             "/invalid-data",
             "Invalid Data",
             "One or more fields are invalid. Please check and try again."
+    ),
+
+    BUSINESS_RULE(
+            "/business-rule-violation",
+            "Business Rule Violation",
+            "Operation could not be completed due to a business rule violation. Please review the request and try again."
     );
 
     private final String path;
