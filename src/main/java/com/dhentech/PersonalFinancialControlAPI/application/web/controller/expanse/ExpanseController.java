@@ -3,12 +3,12 @@ package com.dhentech.PersonalFinancialControlAPI.application.web.controller.expa
 import com.dhentech.PersonalFinancialControlAPI.application.web.controller.expanse.dto.ExpenseResponse;
 import com.dhentech.PersonalFinancialControlAPI.application.web.controller.expanse.dto.NewExpenseRequest;
 import com.dhentech.PersonalFinancialControlAPI.domain.service.expanse.ExpenseService;
-import com.dhentech.PersonalFinancialControlAPI.infrastructure.repository.jpa.CategoryRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +35,7 @@ public class ExpanseController {
     })
     public ResponseEntity<ExpenseResponse> createNewExpense(@Valid @RequestBody NewExpenseRequest request) {
         ExpenseResponse response = this.expenseService.createExpanse(request);
-        return ResponseEntity.ok(response);
+        // Change this line:
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
