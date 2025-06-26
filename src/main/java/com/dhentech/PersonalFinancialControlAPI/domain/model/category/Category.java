@@ -37,10 +37,6 @@ public class Category {
         return name;
     }
 
-    private void setId(UUID id) {
-        this.id = id;
-    }
-
     private void setName(String name) {
         this.name = name;
     }
