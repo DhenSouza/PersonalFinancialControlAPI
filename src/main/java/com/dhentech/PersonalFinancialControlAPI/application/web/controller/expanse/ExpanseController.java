@@ -35,7 +35,6 @@ public class ExpanseController {
     })
     public ResponseEntity<ExpenseResponse> createNewExpense(@Valid @RequestBody NewExpenseRequest request) {
         ExpenseResponse response = this.expenseService.createExpanse(request);
-        // Change this line:
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

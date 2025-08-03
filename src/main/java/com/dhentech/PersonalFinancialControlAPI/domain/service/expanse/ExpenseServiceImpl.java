@@ -3,6 +3,7 @@ package com.dhentech.PersonalFinancialControlAPI.domain.service.expanse;
 import com.dhentech.PersonalFinancialControlAPI.application.web.controller.expanse.dto.ExpenseResponse;
 import com.dhentech.PersonalFinancialControlAPI.application.web.controller.expanse.dto.NewExpenseRequest;
 import com.dhentech.PersonalFinancialControlAPI.application.web.mapper.ExpenseMapper;
+import com.dhentech.PersonalFinancialControlAPI.domain.exceptions.ResourceNotFoundException;
 import com.dhentech.PersonalFinancialControlAPI.domain.model.category.Category;
 import com.dhentech.PersonalFinancialControlAPI.domain.model.expense.Expense;
 import com.dhentech.PersonalFinancialControlAPI.infrastructure.repository.jpa.CategoryRepository;
@@ -27,7 +28,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Transactional
     public ExpenseResponse createExpanse(NewExpenseRequest request) {
         Category category = categoryRepository.findById(request.categoryId())
-                .orElseThrow(() -> new RuntimeException("Category not found with id: " + request.categoryId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + request.categoryId()));
 
         Expense expense = new Expense(
                 request.description(),
