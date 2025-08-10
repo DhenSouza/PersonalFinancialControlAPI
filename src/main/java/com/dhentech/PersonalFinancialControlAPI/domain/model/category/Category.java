@@ -1,5 +1,6 @@
 package com.dhentech.PersonalFinancialControlAPI.domain.model.category;
 
+import com.dhentech.PersonalFinancialControlAPI.domain.model.Auditing.Auditable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "categories")
-public class Category {
+public class Category extends Auditable {
 
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)

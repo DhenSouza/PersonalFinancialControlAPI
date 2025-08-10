@@ -10,6 +10,10 @@ public class CategoryMapper {
         if (category == null) {
             return null;
         }
-        return new CategoryResponse(category.getId(), category.getName());
+        return new CategoryResponse(
+                category.getId(),
+                category.getName(),
+                category.getCreatedAt(),
+                category.getUpdatedAt());
     }
 }
