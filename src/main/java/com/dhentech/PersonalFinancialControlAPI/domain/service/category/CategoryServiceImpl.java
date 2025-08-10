@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -58,5 +59,30 @@ public class CategoryServiceImpl implements CategoryService {
         Category updatedCategory = categoryRepository.save(categoryToUpdate);
 
         return categoryMapper.toResponse(updatedCategory);
+    }
+
+    @Override
+    @Transactional
+    public CategoryResponse updateCategoryByWeb(UUID id, NewCategoryRequest request) {
+        Category categoryToUpdate = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
+
+        Optional<Category> existingCategoryWithName = categoryRepository.findByName(request.name());
+
+        if (existingCategoryWithName.isPresent() && !existingCategoryWithName.get().getId().equals(id)) {
+            throw new BusinessRuleException("A category with the name '" + request.name() + "' already exists.");
+        }
+
+        categoryToUpdate.updateName(request.name());
+        Category updatedCategory = categoryRepository.save(categoryToUpdate);
+        return categoryMapper.toResponse(updatedCategory);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CategoryResponse findCategoryById(UUID id) {
+        return categoryRepository.findById(id)
+                .map(categoryMapper::toResponse)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
     }
 }

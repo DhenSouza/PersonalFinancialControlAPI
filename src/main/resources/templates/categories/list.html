@@ -1,0 +1,37 @@
+<!-- File: src/main/resources/templates/categories/list.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>All Categories</title>
+
+  <!-- Global styles first -->
+  <link rel="stylesheet" href="/css/global.css">
+
+  <!-- Page-specific styles second -->
+  <link rel="stylesheet" href="/css/category/category-styles.css">
+</head>
+<body>
+<h1>Categories</h1>
+<a href="/categories/new">Create New Category</a>
+<hr/>
+<table border="1" class="table-list-custom">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="category : ${categories}">
+    <td th:text="${category.id}"></td>
+    <td th:text="${category.name}"></td>
+    <td>
+      <a th:href="@{/categories/{id}/edit(id=${category.id})}">Edit</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

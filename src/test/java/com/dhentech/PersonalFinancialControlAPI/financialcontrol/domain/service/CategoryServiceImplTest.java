@@ -93,26 +93,31 @@ public class CategoryServiceImplTest {
         verify(categoryRepository, times(1)).findAll();
     }
 
+
+
     @Test
     @DisplayName("Given a valid ID and data, when updating a category, then it should succeed")
     void updateCategory_withValidId_shouldSucceed() {
         // --- GIVEN (Arrange) ---
         UUID categoryId = UUID.randomUUID();
         var request = new NewCategoryRequest("Groceries");
-        var existingCategory = new Category("Food");
+        var existingCategory = new Category("Food"); // The original category
         var response = new CategoryResponse(categoryId, request.name());
 
+        // Mock the behavior
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(existingCategory));
+        when(categoryRepository.findByName(request.name())).thenReturn(Optional.empty()); // Simulate that the new name is not taken
         when(categoryRepository.save(any(Category.class))).thenReturn(existingCategory);
         when(categoryMapper.toResponse(any(Category.class))).thenReturn(response);
 
         // --- WHEN (Act) ---
-        CategoryResponse actualResponse = categoryService.updateCategory(categoryId, request);
+        CategoryResponse actualResponse = categoryService.updateCategoryByWeb(categoryId, request);
 
         // --- THEN (Assert) ---
         assertNotNull(actualResponse);
         assertEquals(request.name(), actualResponse.name());
         verify(categoryRepository, times(1)).findById(categoryId);
+        verify(categoryRepository, times(1)).findByName(request.name());
         verify(categoryRepository, times(1)).save(any(Category.class));
     }
 
@@ -129,6 +134,35 @@ public class CategoryServiceImplTest {
             categoryService.updateCategory(nonExistentId, request);
         });
 
+        verify(categoryRepository, never()).save(any(Category.class));
+    }
+
+    @Test
+    @DisplayName("Given a name that already exists for another category, when updating, then it should throw BusinessRuleException")
+    void updateCategory_withExistingNameOnAnotherCategory_shouldThrowBusinessRuleException() {
+        // --- GIVEN (Arrange) ---
+        UUID categoryIdToUpdate = UUID.randomUUID();
+        UUID otherCategoryId = UUID.randomUUID();
+        var request = new NewCategoryRequest("Transport"); // The new, conflicting name
+
+        var categoryToUpdate = new Category("Food"); // The category we are trying to update
+
+        // CORRECTED: Create a mock for the other category to simulate its behavior
+        Category otherCategoryWithSameName = mock(Category.class);
+
+        when(categoryRepository.findById(categoryIdToUpdate)).thenReturn(Optional.of(categoryToUpdate));
+        // Simulate that a different category already has the name "Transport"
+        when(categoryRepository.findByName(request.name())).thenReturn(Optional.of(otherCategoryWithSameName));
+        // CORRECTED: Stub the getId() method on the MOCK object
+        when(otherCategoryWithSameName.getId()).thenReturn(otherCategoryId);
+
+
+        // --- WHEN (Act) & THEN (Assert) ---
+        assertThrows(BusinessRuleException.class, () -> {
+            categoryService.updateCategoryByWeb(categoryIdToUpdate, request);
+        });
+
+        // Ensure we never tried to save the invalid change
         verify(categoryRepository, never()).save(any(Category.class));
     }
 }

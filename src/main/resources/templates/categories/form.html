@@ -1,0 +1,37 @@
+<!-- File: src/main/resources/templates/categories/form.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Category Form</title>
+
+  <!-- Global styles first -->
+  <link rel="stylesheet" href="/css/global.css">
+
+  <!-- Page-specific styles second -->
+  <link rel="stylesheet" href="/css/category/category-styles.css">
+</head>
+<body>
+<!-- Use Thymeleaf to determine if this is a create or update form -->
+<h1 th:if="${categoryId == null}">Create New Category</h1>
+<h1 th:unless="${categoryId == null}">Edit Category</h1>
+
+<!-- Display general business rule errors above the form -->
+<div th:if="${businessError}" style="color:red; margin-bottom: 10px;">
+  <p th:text="${businessError}"></p>
+</div>
+
+<!-- The form will POST to /categories for new items, or /categories/{id} for updates -->
+<form th:action="${categoryId == null} ? @{/categories} : @{/categories/{id}(id=${categoryId})}" th:object="${categoryRequest}" method="post">
+  <div>
+    <label for="name">Category Name:</label>
+    <input type="text" id="name" th:field="*{name}" />
+    <!-- Display validation errors for the 'name' field -->
+    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;"></p>
+  </div>
+  <br/>
+  <button type="submit">Save</button>
+  <a href="/categories">Cancel</a>
+</form>
+</body>
+</html>

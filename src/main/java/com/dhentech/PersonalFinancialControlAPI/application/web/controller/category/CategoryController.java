@@ -54,7 +54,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "Category not found with the specified ID")
     })
     public ResponseEntity<CategoryResponse> updateCategory(@PathVariable UUID id, @Valid @RequestBody NewCategoryRequest request) {
-        CategoryResponse updatedCategory = categoryService.updateCategory(id, request);
+        CategoryResponse updatedCategory = categoryService.updateCategoryByWeb(id, request);
         return ResponseEntity.ok(updatedCategory);
     }
 }

@@ -1,0 +1,89 @@
+/* File: src/main/resources/static/css/category-styles.css */
+
+/* Table Styles (for list.html) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+thead {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dddddd;
+}
+
+tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Form Styles (for form.html) */
+form {
+    background-color: #ffffff;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+form div {
+    margin-bottom: 1em;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important for padding and width */
+}
+
+/* Error Message Styles */
+p.error-message {
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+div.error-summary {
+    color: #e74c3c;
+    background-color: #fadbd8;
+    border: 1px solid #e74c3c;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.table-list-custom {
+    margin: 0 auto; /* centraliza horizontalmente */
+    background-color: #f8d7da; /* vermelho claro */
+    border-collapse: collapse; /* remove espaços entre as bordas */
+}
+
+.table-list-custom th,
+.table-list-custom td {
+    padding: 8px 12px;
+    text-align: center; /* centraliza o conteúdo das células */
+}
+
+.table-list-custom th {
+    background-color: #f5b5b8; /* tom mais escuro para o cabeçalho */
+}
+
