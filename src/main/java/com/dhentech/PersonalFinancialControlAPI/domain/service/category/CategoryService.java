@@ -11,8 +11,6 @@ public interface CategoryService {
 
     List<CategoryResponse> getAllCategories();
 
-    CategoryResponse updateCategory(UUID id, NewCategoryRequest request);
-
     CategoryResponse updateCategoryByWeb(UUID id, NewCategoryRequest request);
 
     CategoryResponse findCategoryById(UUID id);

@@ -131,7 +131,7 @@ public class CategoryServiceImplTest {
 
         // --- WHEN (Act) & THEN (Assert) ---
         assertThrows(ResourceNotFoundException.class, () -> {
-            categoryService.updateCategory(nonExistentId, request);
+            categoryService.updateCategoryByWeb(nonExistentId, request);
         });
 
         verify(categoryRepository, never()).save(any(Category.class));

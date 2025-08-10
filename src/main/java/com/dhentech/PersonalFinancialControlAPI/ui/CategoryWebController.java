@@ -85,7 +85,7 @@ public class CategoryWebController {
             return "categories/form"; // Show form again on error
         }
         try {
-            categoryService.updateCategory(id, request);
+            categoryService.updateCategoryByWeb(id, request);
             return "redirect:/categories"; // Redirect to the list page
         } catch (BusinessRuleException ex) {
             // If a business rule is violated (e.g., name already exists),

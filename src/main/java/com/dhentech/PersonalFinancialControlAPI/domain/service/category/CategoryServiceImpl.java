@@ -48,18 +48,6 @@ public class CategoryServiceImpl implements CategoryService {
         return this.categoryRepository.findAll().stream().map(categoryMapper::toResponse).collect(Collectors.toList());
     }
 
-    @Override
-    @Transactional
-    public CategoryResponse updateCategory(UUID id, NewCategoryRequest request) {
-        Category categoryToUpdate = categoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
-
-        categoryToUpdate.updateName(request.name());
-
-        Category updatedCategory = categoryRepository.save(categoryToUpdate);
-
-        return categoryMapper.toResponse(updatedCategory);
-    }
 
     @Override
     @Transactional
